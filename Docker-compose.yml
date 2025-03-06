@@ -1,0 +1,58 @@
+version: '3.7'
+services:
+  candidat:
+    build: ./candidat
+    container_name: candidatsae6
+    image: hedilengliz/candidatsae6:latest
+    ports:
+      - "8080:8080"
+    environment:
+        - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka
+    depends_on:
+      - eureeka
+  JobMs:
+    build: ./JobMs
+    container_name: jobmssae6
+    image: hedilengliz/jobmssae6:latest
+    ports:
+      - "8081:8081"
+    depends_on:
+      - db_mysql
+      - eureeka
+    environment:
+        - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka
+        - SPRING_DATASOURCE_URL=jdbc:mysql://db_mysql:3306/jobTest?createDatabaseIfNotExist=true&useSSL=false
+        - SPRING_DATASOURCE_USERNAME=root
+        - SPRING_DATASOURCE_PASSWORD=root
+        - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
+        - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+  eureeka:
+    build: ./ServerEureeka
+    container_name: eureekasae6
+    image: hedilengliz/eureekasae6:latest
+    ports:
+      - "8761:8761"
+    environment:
+        - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka
+
+  ApiGateway:
+    build: ./ApiGateway
+    container_name: apigatewaysae6
+    image: hedilengliz/apigatewaysae6:latest
+    ports:
+      - "8069:8069"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka
+    depends_on:
+      - eureeka
+      - candidat
+      - JobMs
+  db_mysql:
+    image: mysql:5.6
+    container_name: mysqlsae6
+    ports:
+      - "3306:3306"
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: jobTest

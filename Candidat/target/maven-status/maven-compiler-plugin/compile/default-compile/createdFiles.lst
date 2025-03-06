@@ -1,0 +1,6 @@
+sae6\candidat\Repositories\CandidatRepository.class
+sae6\candidat\Services\CandidatService.class
+sae6\candidat\CandidatApplication.class
+sae6\candidat\Entities\Candidat.class
+sae6\candidat\Services\ICandidat.class
+sae6\candidat\Controllers\CandidatRestController.class
