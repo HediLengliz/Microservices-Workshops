@@ -12,6 +12,15 @@
         <module name="ApiGateway" />
         <module name="ServerEureeka" />
       </profile>
+      <profile name="Annotation profile for configServer" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.4.3/spring-boot-configuration-processor-3.4.3.jar" />
+        </processorPath>
+        <module name="configServer" />
+      </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
@@ -20,6 +29,7 @@
       <module name="Candidat" options="-parameters" />
       <module name="JobSAE6" options="-parameters" />
       <module name="ServerEureeka" options="-parameters" />
+      <module name="configServer" options="-parameters" />
     </option>
   </component>
 </project>
